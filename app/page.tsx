@@ -13,7 +13,17 @@ interface Refrigerio {
   precio: number;
 }
 
-// Menús con datos reales y precios
+// Interfaz para el segundo carrusel de servicios con imagen
+interface ServicioEvento {
+  id: number;
+  titulo: string;
+  subtitulo: string;
+  descripcion: string;
+  badge: string;
+  imagen: string;
+}
+
+// Menús con datos reales y precios (IMÁGENES Y RUTAS LOCALES EXACTAS)
 const REFRIGERIOS: Refrigerio[] = [
   {
     id: 1,
@@ -30,7 +40,7 @@ const REFRIGERIOS: Refrigerio[] = [
     categoria: "Tradicional & Reconfortante",
     resumen: "Pastel de carne + Pony Malta Mini + Galleta de coco",
     descripcion: "Una propuesta con un toque tradicional y reconfortante. El pastel de carne, acompañado de una Pony Malta Mini y una galleta de coco, crea una combinación práctica, deliciosa y perfecta para compartir.",
-    imagen: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80",
+    imagen: "/WhatsApp Image 2026-08-06 at 13.57.18.jpeg",
     precio: 12400,
   },
   {
@@ -39,7 +49,7 @@ const REFRIGERIOS: Refrigerio[] = [
     categoria: "Fresco & Dulce",
     resumen: "Brownie + Fruta de temporada + Mini Yox o Té Hatsu",
     descripcion: "Una opción fresca y equilibrada que combina el sabor del brownie con la frescura de una fruta de temporada, acompañados de Mini Yox o té Hatsu en caja. Pensada para disfrutar en reuniones o pausas.",
-    imagen: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80",
+    imagen: "/WhatsApp Image 2026-08-06 at 14.04.24.jpeg",
     precio: 12400,
   },
   {
@@ -48,7 +58,7 @@ const REFRIGERIOS: Refrigerio[] = [
     categoria: "Ligero & Delicioso",
     resumen: "Palito de queso + Jugo Hit + Fruta de temporada",
     descripcion: "Una combinación ligera y deliciosa que reúne un palito de queso, jugo Hit y una fruta de temporada. Una opción fresca y práctica, ideal para acompañar encuentros y jornadas de trabajo.",
-    imagen: "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=800&q=80",
+    imagen: "/WhatsApp Image 2026-08-06 at 14.16.28.jpeg",
     precio: 12400,
   },
   {
@@ -57,18 +67,54 @@ const REFRIGERIOS: Refrigerio[] = [
     categoria: "Sabor Criollo & Cercano",
     resumen: "Empanada de pollo/carne + Jugo Hit + Fruta de temporada",
     descripcion: "Inspirado en los sabores que evocan tradición y cercanía, este menú combina una empanada de pollo o carne desmechada, jugo Hit y una fruta de temporada. Llena de sabor e ideal para compartir.",
-    imagen: "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=800&q=80",
+    imagen: "/WhatsApp Image 2026-08-06 at 14.17.54 (1).jpeg",
     precio: 12400,
   },
 ];
 
-// Carrusel de imágenes para el Hero Banner
+// Carrusel de imágenes para el Hero Banner (TODAS TUS FOTOS)
 const HERO_IMAGES = [
   "https://i.pinimg.com/736x/85/1c/32/851c3235ec603a6ab19ad94f4facc73e.jpg",
   "https://i.pinimg.com/1200x/18/7e/d4/187ed4f3696a73b7beee1f00e18f8521.jpg",
   "https://i.pinimg.com/736x/f8/5e/62/f85e62f60af2931660c292ead4a54b42.jpg",
   "https://i.pinimg.com/1200x/10/00/35/10003520d4b87bd7e001da609eadcd6a.jpg",
   "https://i.pinimg.com/736x/5d/b4/bc/5db4bce68eb691307bc1aa9ace2c3371.jpg",
+];
+
+// Datos para el segundo carrusel (Imagen al lado izquierdo + Información al lado derecho)
+const SERVICIOS_EVENTOS: ServicioEvento[] = [
+  {
+    id: 1,
+    titulo: "Eventos Empresariales",
+    subtitulo: "Pausas activas, capacitaciones y reuniones corporativas",
+    descripcion: "Refrigerios frescos en empaques individuales, prácticos y elegantes. Garantizamos puntualidad absoluta para que el flujo de tu agenda empresarial sea perfecto.",
+    badge: "Corporativo",
+    imagen: "https://i.pinimg.com/736x/41/62/fc/4162fce3d7cbac51b9709cbbb2f99bc7.jpg",
+  },
+  {
+    id: 2,
+    titulo: "Baby Showers",
+    subtitulo: "Celebraciones delicadas y llenas de dulzura",
+    descripcion: "Opciones estéticas y deliciosas pensadas para compartir en familia. Presentaciones impecables y llenas de detalle para la llegada de tu bebé.",
+    badge: "Sociales",
+    imagen: "https://i.pinimg.com/736x/1d/76/c0/1d76c011b1960734ff87984a0849083e.jpg",
+  },
+  {
+    id: 3,
+    titulo: "Bodas",
+    subtitulo: "Elegancia y distinción en cada bocado",
+    descripcion: "Bocados gourmet y canapés de alta gama preparados para recepciones y momentos especiales donde la presentación y el sabor son los protagonistas.",
+    badge: "Exclusivo",
+    imagen: "https://i.pinimg.com/1200x/23/8f/b7/238fb7d8f10c5815e1e9e67d17ff52ca.jpg",
+  },
+  {
+    id: 4,
+    titulo: "Novenas Empresariales",
+    subtitulo: "Celebraciones navideñas y cierres de año",
+    descripcion: "Lo mejor para agasajar a tus colaboradores y clientes. Menús temáticos diseñados especialmente para novenas de aguinaldos y eventos de fin de año.",
+    badge: "Navidad",
+    imagen: "https://i.pinimg.com/1200x/ac/60/a4/ac60a4a3d26c29f88f14035aa7379a74.jpg",
+  },
 ];
 
 const PAYMENT_METHODS = [
@@ -84,10 +130,11 @@ const WHATSAPP_BASE_URL = `https://wa.me/${PHONE_NUMBER}?text=`;
 export default function Page() {
   const [modalImagen, setModalImagen] = useState<string | null>(null);
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
+  const [currentServicioIndex, setCurrentServicioIndex] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [flippedCardId, setFlippedCardId] = useState<number | null>(null);
 
-  // Cambio automático del carrusel cada 5 segundos
+  // Cambio automático del carrusel Hero cada 5 segundos
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentHeroImage((prev) => (prev + 1) % HERO_IMAGES.length);
@@ -110,6 +157,14 @@ export default function Page() {
 
   const prevHeroImage = () => {
     setCurrentHeroImage((prev) => (prev - 1 + HERO_IMAGES.length) % HERO_IMAGES.length);
+  };
+
+  const nextServicio = () => {
+    setCurrentServicioIndex((prev) => (prev + 1) % SERVICIOS_EVENTOS.length);
+  };
+
+  const prevServicio = () => {
+    setCurrentServicioIndex((prev) => (prev - 1 + SERVICIOS_EVENTOS.length) % SERVICIOS_EVENTOS.length);
   };
 
   const formatPrice = (price: number) => {
@@ -144,6 +199,7 @@ export default function Page() {
         <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-[0.2em] font-medium">
           <a href="#experiencia" className="hover:text-[#E5C378] transition-colors">Experiencia</a>
           <a href="#catalogo" className="hover:text-[#E5C378] transition-colors">Menús & Precios</a>
+          <a href="#servicios-eventos" className="hover:text-[#E5C378] transition-colors">Servicios para Eventos</a>
           <a href="#galeria" className="hover:text-[#E5C378] transition-colors">Galería</a>
         </nav>
 
@@ -173,6 +229,7 @@ export default function Page() {
         <div className="fixed inset-0 z-40 bg-black/95 text-white flex flex-col items-center justify-center gap-8 text-lg uppercase tracking-widest md:hidden">
           <a href="#experiencia" onClick={() => setMobileMenuOpen(false)}>Experiencia</a>
           <a href="#catalogo" onClick={() => setMobileMenuOpen(false)}>Menús & Precios</a>
+          <a href="#servicios-eventos" onClick={() => setMobileMenuOpen(false)}>Servicios para Eventos</a>
           <a href="#galeria" onClick={() => setMobileMenuOpen(false)}>Galería</a>
           <a 
             href={mainWhatsAppLink} 
@@ -355,6 +412,97 @@ export default function Page() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* --- SEGUNDO CARRUSEL: SERVICIOS PARA EVENTOS (IMAGEN A UN LADO / INFORMACIÓN AL OTRO LADO) --- */}
+      <section id="servicios-eventos" className="py-20 px-6 md:px-16 bg-[#111111] text-white border-t border-b border-white/10">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12 space-y-2">
+            <span className="font-serif italic text-3xl text-[#C5A059] block">
+              Servicios para Eventos
+            </span>
+            <h2 className="text-2xl md:text-4xl font-extralight uppercase tracking-wider">
+              Soluciones para Cada Ocasión
+            </h2>
+            <p className="text-xs text-gray-400 font-light">
+              Desliza para conocer nuestros servicios especializados
+            </p>
+          </div>
+
+          {/* Carrusel Split Card (Imagen a la Izquierda / Información a la Derecha) */}
+          <div className="relative max-w-5xl mx-auto bg-[#1A1A1A] rounded-2xl overflow-hidden border border-[#C5A059]/30 shadow-2xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 items-stretch min-h-[380px]">
+              
+              {/* LADO IZQUIERDO: Imagen de la ocasión */}
+              <div className="relative w-full h-64 md:h-full overflow-hidden">
+                <img 
+                  src={SERVICIOS_EVENTOS[currentServicioIndex].imagen} 
+                  alt={SERVICIOS_EVENTOS[currentServicioIndex].titulo} 
+                  className="w-full h-full object-cover transition-all duration-700 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#1A1A1A]" />
+              </div>
+
+              {/* LADO DERECHO: Información descriptiva */}
+              <div className="p-8 md:p-12 flex flex-col justify-between space-y-6">
+                <div className="space-y-3">
+                  <span className="text-[10px] text-black bg-[#E5C378] font-bold px-3 py-1 rounded-full uppercase tracking-widest inline-block">
+                    {SERVICIOS_EVENTOS[currentServicioIndex].badge}
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-light uppercase text-[#E5C378]">
+                    {SERVICIOS_EVENTOS[currentServicioIndex].titulo}
+                  </h3>
+                  <h4 className="text-xs uppercase tracking-widest text-gray-400 font-medium">
+                    {SERVICIOS_EVENTOS[currentServicioIndex].subtitulo}
+                  </h4>
+                  <p className="text-xs md:text-sm text-gray-300 font-light leading-relaxed pt-2">
+                    {SERVICIOS_EVENTOS[currentServicioIndex].descripcion}
+                  </p>
+                </div>
+
+                <div>
+                  <a 
+                    href={`${WHATSAPP_BASE_URL}${encodeURIComponent(`Hola, me gustaría cotizar el servicio de ${SERVICIOS_EVENTOS[currentServicioIndex].titulo} para mi evento.`)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block bg-[#C5A059] text-black px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors shadow-lg"
+                  >
+                    Cotizar {SERVICIOS_EVENTOS[currentServicioIndex].titulo}
+                  </a>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Controles de Navegación del Carrusel de Servicios */}
+            <div className="flex justify-between items-center px-8 py-4 bg-black/40 border-t border-white/10">
+              <button 
+                onClick={prevServicio}
+                className="text-xs uppercase tracking-widest text-[#E5C378] hover:text-white transition-colors flex items-center gap-2"
+              >
+                ‹ Anterior
+              </button>
+
+              <div className="flex gap-2">
+                {SERVICIOS_EVENTOS.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentServicioIndex(idx)}
+                    className={`h-2 rounded-full transition-all ${idx === currentServicioIndex ? 'w-6 bg-[#E5C378]' : 'w-2 bg-white/30'}`}
+                    aria-label={`Ver ${SERVICIOS_EVENTOS[idx].titulo}`}
+                  />
+                ))}
+              </div>
+
+              <button 
+                onClick={nextServicio}
+                className="text-xs uppercase tracking-widest text-[#E5C378] hover:text-white transition-colors flex items-center gap-2"
+              >
+                Siguiente ›
+              </button>
+            </div>
           </div>
         </div>
       </section>
