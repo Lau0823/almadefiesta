@@ -16,35 +16,35 @@ const REFRIGERIOS: Refrigerio[] = [
     nombre: "Canapés & Bocados Salados",
     categoria: "Bodas & Coctel",
     descripcion: "Crostinis con jamón serrano, mousse de salmón ahumado y mini tartaletas de brie.",
-    imagen: "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&q=80&w=1600",
+    imagen: "/WhatsApp Image 2026-08-06 at 14.07.15.jpeg",
   },
   {
     id: 2,
     nombre: "Mesa Dulce & Petit Fours",
     categoria: "Repostería Fina",
     descripcion: "Macarons artesanales, mini eclairs de café y shots de cheesecake de maracuyá.",
-    imagen: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1600",
+    imagen: "/WhatsApp Image 2026-08-06 at 13.57.18.jpeg",
   },
   {
     id: 3,
     nombre: "Brunch Gourmet",
     categoria: "Corporativo",
     descripcion: "Mini croissants de pavo y edam, parfait de granolas selectas y frutos frescos.",
-    imagen: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=1600",
+    imagen: "/WhatsApp Image 2026-08-06 at 14.16.28.jpeg",
   },
   {
     id: 4,
     nombre: "Charcutería & Quesos Madurados",
     categoria: "Aniversarios",
     descripcion: "Selección de embutidos curados, quesos finos, frutos secos y mermeladas de la casa.",
-    imagen: "https://images.unsplash.com/photo-1631379578550-7038263db699?auto=format&fit=crop&q=80&w=1600",
+    imagen: "/WhatsApp Image 2026-08-06 at 14.17.54 (1).jpeg",
   },
   {
     id: 5,
     nombre: "Snacks Healthy & Vitalidad",
     categoria: "Sociales",
     descripcion: "Bocadillos ligeros, brochetas de fruta de estación y bebidas prensadas en frío.",
-    imagen: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&q=80&w=1600",
+    imagen: "/WhatsApp Image 2026-08-06 at 14.17.54 (2).jpeg",
   },
 ];
 
@@ -55,33 +55,55 @@ export default function Page() {
   return (
     <div className="bg-[#FFFFFF] text-[#1A1A1A] font-sans antialiased selection:bg-[#C5A059]/20">
       
-      {/* --- NAV MINIMALISTA Y FLOTANTE --- */}
-      <header className="fixed top-0 left-0 right-0 z-50 mix-blend-difference text-white py-6 px-8 md:px-16 flex items-center justify-between">
-        <a href="#" className="font-serif italic text-2xl md:text-3xl tracking-wide font-light">
-          Alma de Fiesta
-        </a>
+      {/* --- NAV MINIMALISTA Y FLOTANTE CON LOGO CENTRADO Y GRANDE --- */}
+      {/* Reducimos py-4 a py-2 para que el header no sea gigante, dejando que el logo sobresalga */}
+      <header className="fixed top-0 left-0 right-0 z-50 mix-blend-difference text-white py-2 px-6 md:px-16 flex items-center justify-between">
+        
+        {/* Lado Izquierdo: Menú de Navegación (Escritorio) / Nombre Marca (Móvil) */}
+        <div className="flex-1 flex items-center justify-start">
+          <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-[0.2em] font-medium">
+            <a href="#experiencia" className="hover:opacity-60 transition-opacity">Experiencia</a>
+            <a href="#catalogo" className="hover:opacity-60 transition-opacity">Catálogo</a>
+            <a href="#galeria" className="hover:opacity-60 transition-opacity">Galería</a>
+          </nav>
 
-        <nav className="hidden md:flex items-center gap-10 text-xs uppercase tracking-[0.2em] font-medium">
-          <a href="#experiencia" className="hover:opacity-60 transition-opacity">Experiencia</a>
-          <a href="#catalogo" className="hover:opacity-60 transition-opacity">Catálogo</a>
-          <a href="#galeria" className="hover:opacity-60 transition-opacity">Galería</a>
-        </nav>
+          {/* En móvil, el nombre o la marca se mantiene visible si se desea */}
+          <span className="md:hidden font-serif italic text-xl tracking-wide font-light">
+            Alma de Fiesta
+          </span>
+        </div>
 
-        <a 
-          href="https://wa.me/" 
-          target="_blank" 
-          rel="noreferrer" 
-          className="text-xs uppercase tracking-[0.2em] border-b border-white pb-1 hover:opacity-60 transition-opacity"
-        >
-          Cotizar
-        </a>
+        {/* Centro: Logo Local Centrado y MUCHO MÁS GRANDE */}
+        <div className="flex-shrink-0 flex items-center justify-center">
+          <a href="#">
+            <img 
+              src="/WhatsApp_Image_2026-08-06_at_13.25.58-removebg-preview.png" 
+              alt="Alma de Fiesta Logo" 
+              /* Aumentamos significativamente la altura: h-20 en móvil, h-32 en escritorio */
+              className="h-20 md:h-32 w-auto object-contain hover:scale-105 transition-transform duration-300" 
+            />
+          </a>
+        </div>
+
+        {/* Lado Derecho: Botón Cotizar */}
+        <div className="flex-1 flex items-center justify-end">
+          <a 
+            href="https://wa.me/" 
+            target="_blank" 
+            rel="noreferrer" 
+            className="text-xs uppercase tracking-[0.2em] border-b border-white pb-1 hover:opacity-60 transition-opacity whitespace-nowrap"
+          >
+            Cotizar
+          </a>
+        </div>
+
       </header>
 
       {/* --- HERO FULLSCREEN CON VIDEO/IMAGEN DE IMPACTO --- */}
       <section className="relative h-screen w-full flex items-end justify-start p-8 md:p-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&q=80&w=2000" 
+            src="https://i.pinimg.com/1200x/2f/79/b5/2f79b51dc52b43b59c40fabfecee4465.jpg" 
             alt="Refrigerios para eventos" 
             className="w-full h-full object-cover"
           />
@@ -124,11 +146,11 @@ export default function Page() {
           {/* Galería Dinámica Inmersiva */}
           <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div 
-              onClick={() => setModalImagen("https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=80&w=1600")}
+              onClick={() => setModalImagen("https://i.pinimg.com/736x/09/68/01/0968011ba4dc4f87aa27cfd9df885552.jpg")}
               className="group relative h-96 rounded-2xl overflow-hidden cursor-pointer"
             >
               <img 
-                src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=80&w=800" 
+                src="https://i.pinimg.com/736x/30/84/7e/30847e6899fb342bccce8aef132f9dee.jpg" 
                 alt="Detalle catering" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
@@ -138,11 +160,11 @@ export default function Page() {
             </div>
 
             <div 
-              onClick={() => setModalImagen("https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=1600")}
+              onClick={() => setModalImagen("https://i.pinimg.com/736x/09/68/01/0968011ba4dc4f87aa27cfd9df885552.jpg")}
               className="group relative h-96 rounded-2xl overflow-hidden cursor-pointer sm:translate-y-8"
             >
               <img 
-                src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=800" 
+                src="https://i.pinimg.com/1200x/2a/a9/a3/2aa9a3f2a3fc7ed842cf9e30cc9e4c5b.jpg" 
                 alt="Preparación artesanal" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
@@ -211,12 +233,11 @@ export default function Page() {
         {/* Grid Visual de Fotografías Grandes */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {[
-            "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&q=80&w=1200",
-            "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1200",
-            "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=1200",
-            "https://images.unsplash.com/photo-1631379578550-7038263db699?auto=format&fit=crop&q=80&w=1200",
-            "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&q=80&w=1200",
-            "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=80&w=1200",
+            "/WhatsApp Image 2026-08-06 at 14.17.54 (2).jpeg",
+            "/WhatsApp Image 2026-08-06 at 14.17.54 (2).jpeg",
+            "/WhatsApp Image 2026-08-06 at 14.17.54 (1).jpeg",
+            "/WhatsApp Image 2026-08-06 at 14.16.28.jpeg",
+            "/WhatsApp Image 2026-08-06 at 14.04.24.jpeg",
           ].map((src, i) => (
             <div 
               key={i} 
