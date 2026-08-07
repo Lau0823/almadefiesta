@@ -1,257 +1,390 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
+// Interfaz para los menús
 interface Refrigerio {
   id: number;
   nombre: string;
   categoria: string;
+  resumen: string;
   descripcion: string;
   imagen: string;
+  precio: number;
 }
 
+// Menús con datos reales y precios
 const REFRIGERIOS: Refrigerio[] = [
   {
     id: 1,
-    nombre: "Canapés & Bocados Salados",
-    categoria: "Bodas & Coctel",
-    descripcion: "Crostinis con jamón serrano, mousse de salmón ahumado y mini tartaletas de brie.",
-    imagen: "/WhatsApp Image 2026-08-06 at 14.07.15.jpeg",
+    nombre: "Menú Encuentro",
+    categoria: "Equilibrado & Práctico",
+    resumen: "Pastel de pollo + Jugo Hit + Fruta de temporada",
+    descripcion: "Una combinación equilibrada y práctica para compartir en cualquier ocasión. Incluye un pastel de pollo de sabor casero, jugo Hit y una fruta de temporada, ofreciendo una experiencia fresca y deliciosa.",
+    imagen: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80",
+    precio: 12400,
   },
   {
     id: 2,
-    nombre: "Mesa Dulce & Petit Fours",
-    categoria: "Repostería Fina",
-    descripcion: "Macarons artesanales, mini eclairs de café y shots de cheesecake de maracuyá.",
-    imagen: "/WhatsApp Image 2026-08-06 at 13.57.18.jpeg",
+    nombre: "Menú Brisa",
+    categoria: "Tradicional & Reconfortante",
+    resumen: "Pastel de carne + Pony Malta Mini + Galleta de coco",
+    descripcion: "Una propuesta con un toque tradicional y reconfortante. El pastel de carne, acompañado de una Pony Malta Mini y una galleta de coco, crea una combinación práctica, deliciosa y perfecta para compartir.",
+    imagen: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80",
+    precio: 12400,
   },
   {
     id: 3,
-    nombre: "Brunch Gourmet",
-    categoria: "Corporativo",
-    descripcion: "Mini croissants de pavo y edam, parfait de granolas selectas y frutos frescos.",
-    imagen: "/WhatsApp Image 2026-08-06 at 14.16.28.jpeg",
+    nombre: "Menú Crecer",
+    categoria: "Fresco & Dulce",
+    resumen: "Brownie + Fruta de temporada + Mini Yox o Té Hatsu",
+    descripcion: "Una opción fresca y equilibrada que combina el sabor del brownie con la frescura de una fruta de temporada, acompañados de Mini Yox o té Hatsu en caja. Pensada para disfrutar en reuniones o pausas.",
+    imagen: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80",
+    precio: 12400,
   },
   {
     id: 4,
-    nombre: "Charcutería & Quesos Madurados",
-    categoria: "Aniversarios",
-    descripcion: "Selección de embutidos curados, quesos finos, frutos secos y mermeladas de la casa.",
-    imagen: "/WhatsApp Image 2026-08-06 at 14.17.54 (1).jpeg",
+    nombre: "Menú Conexión",
+    categoria: "Ligero & Delicioso",
+    resumen: "Palito de queso + Jugo Hit + Fruta de temporada",
+    descripcion: "Una combinación ligera y deliciosa que reúne un palito de queso, jugo Hit y una fruta de temporada. Una opción fresca y práctica, ideal para acompañar encuentros y jornadas de trabajo.",
+    imagen: "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=800&q=80",
+    precio: 12400,
   },
   {
     id: 5,
-    nombre: "Snacks Healthy & Vitalidad",
-    categoria: "Sociales",
-    descripcion: "Bocadillos ligeros, brochetas de fruta de estación y bebidas prensadas en frío.",
-    imagen: "/WhatsApp Image 2026-08-06 at 14.17.54 (2).jpeg",
+    nombre: "Menú Raíces",
+    categoria: "Sabor Criollo & Cercano",
+    resumen: "Empanada de pollo/carne + Jugo Hit + Fruta de temporada",
+    descripcion: "Inspirado en los sabores que evocan tradición y cercanía, este menú combina una empanada de pollo o carne desmechada, jugo Hit y una fruta de temporada. Llena de sabor e ideal para compartir.",
+    imagen: "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=800&q=80",
+    precio: 12400,
   },
 ];
 
+// Carrusel de imágenes para el Hero Banner
+const HERO_IMAGES = [
+  "https://i.pinimg.com/736x/85/1c/32/851c3235ec603a6ab19ad94f4facc73e.jpg",
+  "https://i.pinimg.com/1200x/18/7e/d4/187ed4f3696a73b7beee1f00e18f8521.jpg",
+  "https://i.pinimg.com/736x/f8/5e/62/f85e62f60af2931660c292ead4a54b42.jpg",
+  "https://i.pinimg.com/1200x/10/00/35/10003520d4b87bd7e001da609eadcd6a.jpg",
+  "https://i.pinimg.com/736x/5d/b4/bc/5db4bce68eb691307bc1aa9ace2c3371.jpg",
+];
+
+const PAYMENT_METHODS = [
+  { name: "Visa", logo: "/visa.png" },
+  { name: "Mastercard", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" },
+  { name: "Nequi", logo: "/nequi.png" },
+  { name: "Daviplata", logo: "/daviplata.png" },
+];
+
+const PHONE_NUMBER = "573208355419";
+const WHATSAPP_BASE_URL = `https://wa.me/${PHONE_NUMBER}?text=`;
+
 export default function Page() {
-  const [activeTab, setActiveTab] = useState(0);
   const [modalImagen, setModalImagen] = useState<string | null>(null);
+  const [currentHeroImage, setCurrentHeroImage] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [flippedCardId, setFlippedCardId] = useState<number | null>(null);
+
+  // Cambio automático del carrusel cada 5 segundos
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentHeroImage((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Tecla ESC para cerrar modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setModalImagen(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const nextHeroImage = () => {
+    setCurrentHeroImage((prev) => (prev + 1) % HERO_IMAGES.length);
+  };
+
+  const prevHeroImage = () => {
+    setCurrentHeroImage((prev) => (prev - 1 + HERO_IMAGES.length) % HERO_IMAGES.length);
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(price);
+  };
+
+  const toggleFlip = (id: number) => {
+    setFlippedCardId((prev) => (prev === id ? null : id));
+  };
+
+  const mainWhatsAppLink = `${WHATSAPP_BASE_URL}${encodeURIComponent('Hola, me gustaría cotizar refrigerios para un evento.')}`;
 
   return (
     <div className="bg-[#FFFFFF] text-[#1A1A1A] font-sans antialiased selection:bg-[#C5A059]/20">
       
-      {/* --- NAV MINIMALISTA Y FLOTANTE CON LOGO CENTRADO Y GRANDE --- */}
-      {/* Reducimos py-4 a py-2 para que el header no sea gigante, dejando que el logo sobresalga */}
-      <header className="fixed top-0 left-0 right-0 z-50 mix-blend-difference text-white py-2 px-6 md:px-16 flex items-center justify-between">
+      {/* --- HEADER CON LOGO A LA IZQUIERDA DE ALMA DE FIESTA --- */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-md text-white py-3 px-6 md:px-16 flex items-center justify-between border-b border-white/10">
         
-        {/* Lado Izquierdo: Menú de Navegación (Escritorio) / Nombre Marca (Móvil) */}
-        <div className="flex-1 flex items-center justify-start">
-          <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-[0.2em] font-medium">
-            <a href="#experiencia" className="hover:opacity-60 transition-opacity">Experiencia</a>
-            <a href="#catalogo" className="hover:opacity-60 transition-opacity">Catálogo</a>
-            <a href="#galeria" className="hover:opacity-60 transition-opacity">Galería</a>
-          </nav>
-
-          {/* En móvil, el nombre o la marca se mantiene visible si se desea */}
-          <span className="md:hidden font-serif italic text-xl tracking-wide font-light">
+        {/* LOGO A LA IZQUIERDA Y TEXTO ALMA DE FIESTA */}
+        <a href="#" className="flex items-center gap-3 group">
+          <img 
+            src="/WhatsApp_Image_2026-08-06_at_13.25.58-removebg-preview.png" 
+            alt="Logo Alma de Fiesta" 
+            className="h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-105"
+          />
+          <span className="font-serif italic text-2xl md:text-3xl tracking-wide font-light text-[#E5C378]">
             Alma de Fiesta
           </span>
-        </div>
+        </a>
 
-        {/* Centro: Logo Local Centrado y MUCHO MÁS GRANDE */}
-        <div className="flex-shrink-0 flex items-center justify-center">
-          <a href="#">
-            <img 
-              src="/WhatsApp_Image_2026-08-06_at_13.25.58-removebg-preview.png" 
-              alt="Alma de Fiesta Logo" 
-              /* Aumentamos significativamente la altura: h-20 en móvil, h-32 en escritorio */
-              className="h-20 md:h-32 w-auto object-contain hover:scale-105 transition-transform duration-300" 
-            />
-          </a>
-        </div>
+        {/* Navegación Desktop */}
+        <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-[0.2em] font-medium">
+          <a href="#experiencia" className="hover:text-[#E5C378] transition-colors">Experiencia</a>
+          <a href="#catalogo" className="hover:text-[#E5C378] transition-colors">Menús & Precios</a>
+          <a href="#galeria" className="hover:text-[#E5C378] transition-colors">Galería</a>
+        </nav>
 
-        {/* Lado Derecho: Botón Cotizar */}
-        <div className="flex-1 flex items-center justify-end">
+        {/* Botón WhatsApp Header */}
+        <div className="flex items-center gap-4">
           <a 
-            href="https://wa.me/" 
+            href={mainWhatsAppLink} 
             target="_blank" 
             rel="noreferrer" 
-            className="text-xs uppercase tracking-[0.2em] border-b border-white pb-1 hover:opacity-60 transition-opacity whitespace-nowrap"
+            className="hidden sm:inline-block bg-[#C5A059] text-black px-5 py-2.5 rounded-full text-xs uppercase tracking-widest font-semibold hover:bg-white transition-all shadow-md"
           >
-            Cotizar
+            Cotizar Evento
           </a>
-        </div>
 
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+            className="md:hidden text-white p-2 focus:outline-none"
+            aria-label="Abrir Menú"
+          >
+            <span className="text-2xl">{mobileMenuOpen ? "✕" : "☰"}</span>
+          </button>
+        </div>
       </header>
 
-      {/* --- HERO FULLSCREEN CON VIDEO/IMAGEN DE IMPACTO --- */}
-      <section className="relative h-screen w-full flex items-end justify-start p-8 md:p-20 overflow-hidden">
+      {/* Menú Desplegable Móvil */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-black/95 text-white flex flex-col items-center justify-center gap-8 text-lg uppercase tracking-widest md:hidden">
+          <a href="#experiencia" onClick={() => setMobileMenuOpen(false)}>Experiencia</a>
+          <a href="#catalogo" onClick={() => setMobileMenuOpen(false)}>Menús & Precios</a>
+          <a href="#galeria" onClick={() => setMobileMenuOpen(false)}>Galería</a>
+          <a 
+            href={mainWhatsAppLink} 
+            target="_blank" 
+            rel="noreferrer"
+            onClick={() => setMobileMenuOpen(false)}
+            className="bg-[#C5A059] text-black px-8 py-3 rounded-full text-xs font-bold"
+          >
+            Cotizar por WhatsApp
+          </a>
+        </div>
+      )}
+
+      {/* --- HERO BANNER CON CARRUSEL DE FOTOS --- */}
+      <section className="relative h-screen w-full flex items-center justify-center p-6 text-center overflow-hidden">
+        
+        {/* Imágenes del Carrusel */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src="https://i.pinimg.com/1200x/2f/79/b5/2f79b51dc52b43b59c40fabfecee4465.jpg" 
-            alt="Refrigerios para eventos" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/30" />
+          {HERO_IMAGES.map((src, index) => (
+            <img 
+              key={index}
+              src={src} 
+              alt={`Refrigerios para eventos carrusel ${index + 1}`} 
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === currentHeroImage ? 'opacity-100' : 'opacity-0'}`}
+            />
+          ))}
+          <div className="absolute inset-0 bg-black/55" />
         </div>
 
-        <div className="relative z-10 text-white max-w-2xl space-y-4">
-          <span className="font-serif italic text-3xl md:text-5xl text-[#E5C378] block">
-            Arte Gastronómico
+        {/* Flecha Izquierda */}
+        <button 
+          onClick={prevHeroImage} 
+          className="absolute top-1/2 left-4 z-20 text-white/80 hover:text-white bg-black/40 hover:bg-black/70 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center transition-all -translate-y-1/2"
+          aria-label="Imagen anterior"
+        >
+          ‹
+        </button>
+
+        {/* Flecha Derecha */}
+        <button 
+          onClick={nextHeroImage} 
+          className="absolute top-1/2 right-4 z-20 text-white/80 hover:text-white bg-black/40 hover:bg-black/70 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center transition-all -translate-y-1/2"
+          aria-label="Siguiente imagen"
+        >
+          ›
+        </button>
+
+        {/* Dots Indicadores */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          {HERO_IMAGES.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentHeroImage(idx)}
+              className={`h-2 rounded-full transition-all ${idx === currentHeroImage ? 'w-8 bg-[#E5C378]' : 'w-2 bg-white/50'}`}
+              aria-label={`Ir a foto ${idx + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Texto Hero */}
+        <div className="relative z-10 text-white max-w-3xl space-y-4">
+          <span className="inline-block bg-[#C5A059]/30 text-[#E5C378] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#C5A059]/40 backdrop-blur-sm">
+            Refrigerios para Eventos
           </span>
-          <h1 className="text-4xl md:text-6xl font-extralight tracking-tight uppercase leading-none">
-            REFRIGERIOS PARA EVENTOS
+          <h1 className="text-3xl md:text-5xl font-light text-[#E5C378] font-serif italic tracking-wide leading-tight">
+            Cada reunión merece algo especial
           </h1>
-          <p className="text-xs md:text-sm text-gray-200 tracking-wider font-light pt-2">
-            Medellín & alrededores — Experiencias visuales y de sabor diseñadas para celebraciones inolvidables.
-          </p>
-        </div>
-
-        <div className="absolute bottom-8 right-8 z-10 text-white text-xs tracking-widest uppercase animate-bounce hidden md:block">
-          ↓ Scrollea para explorar
         </div>
       </section>
 
-      {/* --- SECCIÓN SECTORIAL CON MODO EXPLORADOR DE FOTOS (HERO SLIDER) --- */}
-      <section id="experiencia" className="py-24 px-6 md:px-20 bg-[#FAF9F6]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
-          
-          <div className="md:col-span-4 space-y-6">
-            <span className="font-serif italic text-4xl text-[#C5A059] block">
-              Inolvidables
+      {/* --- SECCIÓN EXPERIENCIA --- */}
+      <section id="experiencia" className="py-20 px-6 md:px-20 bg-[#FAF9F6]">
+        <div className="max-w-5xl mx-auto text-center space-y-4">
+          <span className="font-serif italic text-3xl text-[#C5A059] block">
+            Servicio para Eventos
+          </span>
+          <h2 className="text-2xl md:text-3xl font-light uppercase tracking-widest text-[#1A1A1A]">
+            Calidad y Presentación Exclusiva
+          </h2>
+          <p className="text-gray-600 text-sm md:text-base leading-relaxed font-light max-w-2xl mx-auto">
+            Nos encargamos de que cada refrigerio para tu evento empresarial, social o familiar sea fresco, práctico y con la mejor presentación.
+          </p>
+        </div>
+      </section>
+
+      {/* --- CATÁLOGO DE TARJETAS FLIP (VOLTEABLES) --- */}
+      <section id="catalogo" className="py-20 px-6 md:px-16 bg-[#FFFFFF]">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16 space-y-2">
+            <span className="font-serif italic text-3xl text-[#C5A059] block">
+              Menús Disponibles
             </span>
-            <h2 className="text-2xl md:text-3xl font-light uppercase tracking-widest text-[#1A1A1A]">
-              Elegancia en cada detalle
+            <h2 className="text-3xl md:text-4xl font-extralight uppercase tracking-wider">
+              Nuestros Refrigerios para Eventos
             </h2>
-            <p className="text-gray-500 text-xs sm:text-sm leading-relaxed font-light">
-              Diseñamos cada estación pensando en la estética de tu evento. Menos texto, más sabor y una presentación fotogénica de nivel editorial.
+            <p className="text-xs text-gray-400 uppercase tracking-widest pt-2">
+              Toca aquí para ver más información
             </p>
           </div>
 
-          {/* Galería Dinámica Inmersiva */}
-          <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div 
-              onClick={() => setModalImagen("https://i.pinimg.com/736x/09/68/01/0968011ba4dc4f87aa27cfd9df885552.jpg")}
-              className="group relative h-96 rounded-2xl overflow-hidden cursor-pointer"
-            >
-              <img 
-                src="https://i.pinimg.com/736x/30/84/7e/30847e6899fb342bccce8aef132f9dee.jpg" 
-                alt="Detalle catering" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs uppercase tracking-widest">
-                Ampliar Fotografía
-              </div>
-            </div>
+          {/* Grid de Tarjetas */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {REFRIGERIOS.map((item) => {
+              const isFlipped = flippedCardId === item.id;
+              const itemWhatsAppLink = `${WHATSAPP_BASE_URL}${encodeURIComponent(`Hola, quisiera solicitar el ${item.nombre} ($12.400) para un evento.`)}`;
 
-            <div 
-              onClick={() => setModalImagen("https://i.pinimg.com/736x/09/68/01/0968011ba4dc4f87aa27cfd9df885552.jpg")}
-              className="group relative h-96 rounded-2xl overflow-hidden cursor-pointer sm:translate-y-8"
-            >
-              <img 
-                src="https://i.pinimg.com/1200x/2a/a9/a3/2aa9a3f2a3fc7ed842cf9e30cc9e4c5b.jpg" 
-                alt="Preparación artesanal" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs uppercase tracking-widest">
-                Ampliar Fotografía
-              </div>
-            </div>
+              return (
+                <div 
+                  key={item.id} 
+                  className="h-[420px] w-full [perspective:1000px] cursor-pointer group"
+                  onClick={() => toggleFlip(item.id)}
+                >
+                  <div className={`relative w-full h-full duration-700 [transform-style:preserve-3d] transition-transform rounded-2xl shadow-xl ${isFlipped ? '[transform:rotateY(180deg)]' : ''}`}>
+                    
+                    {/* CARA FRONTAL */}
+                    <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] rounded-2xl overflow-hidden bg-black">
+                      <img 
+                        src={item.imagen} 
+                        alt={item.nombre} 
+                        className="w-full h-full object-cover filter brightness-[0.75] group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-6 flex flex-col justify-end text-white">
+                        <span className="text-[10px] text-[#E5C378] uppercase tracking-widest font-semibold mb-1">
+                          {item.categoria}
+                        </span>
+                        <h3 className="text-2xl font-light uppercase tracking-wide">
+                          {item.nombre}
+                        </h3>
+                        <p className="text-xs text-gray-300 font-light mt-1">
+                          {item.resumen}
+                        </p>
+                        <p className="text-3xl font-extralight text-[#E5C378] mt-3 tracking-tight">
+                          {formatPrice(item.precio)}
+                        </p>
+                        <div className="mt-4 pt-3 border-t border-white/20 flex items-center justify-between text-[#E5C378]">
+                          <span className="text-xs uppercase tracking-widest font-medium">Toca aquí para ver más información</span>
+                          <span className="text-lg">↺</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* CARA TRASERA */}
+                    <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-2xl bg-[#111111] text-white p-8 flex flex-col justify-between border border-[#C5A059]/30">
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-start border-b border-white/10 pb-3">
+                          <div>
+                            <span className="text-[10px] text-[#E5C378] uppercase tracking-widest font-semibold block">
+                              {item.categoria}
+                            </span>
+                            <h3 className="text-xl font-light uppercase text-[#E5C378]">
+                              {item.nombre}
+                            </h3>
+                          </div>
+                          <span className="text-xl font-extralight text-white">
+                            {formatPrice(item.precio)}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-300 leading-relaxed font-light">
+                          {item.descripcion}
+                        </p>
+                      </div>
+
+                      <div className="space-y-3">
+                        <a 
+                          href={itemWhatsAppLink}
+                          target="_blank" 
+                          rel="noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="block w-full text-center bg-[#C5A059] text-black py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors shadow-lg"
+                        >
+                          Pedir por WhatsApp
+                        </a>
+                        <p className="text-[10px] text-center text-gray-500 uppercase tracking-widest">
+                          Toca para volver a la imagen
+                        </p>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              );
+            })}
           </div>
-
         </div>
       </section>
 
-      {/* --- CATÁLOGO ESTILO MAGAZINE / FULL-WIDTH LOOKBOOK (5 REFRIGERIOS) --- */}
-      <section id="catalogo" className="py-24">
-        <div className="px-8 md:px-20 mb-12 text-center md:text-left">
-          <span className="font-serif italic text-4xl text-[#C5A059] block">
-            Catálogo
+      {/* --- GALERÍA DE FOTOS --- */}
+      <section id="galeria" className="py-20 px-4 md:px-12 bg-[#111111] text-white">
+        <div className="text-center space-y-2 mb-12">
+          <span className="font-serif italic text-3xl text-[#C5A059] block">
+            Galería Visual
           </span>
-          <h2 className="text-3xl md:text-5xl font-extralight uppercase tracking-wider">
-            NUESTROS 5 REFRIGERIOS
+          <h2 className="text-2xl md:text-3xl font-extralight uppercase tracking-widest">
+            Imágenes de Nuestros Eventos
           </h2>
         </div>
 
-        {/* Muestra Interactiva Completa */}
-        <div className="space-y-1 sm:space-y-0">
-          {REFRIGERIOS.map((item, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {REFRIGERIOS.map((item, i) => (
             <div 
-              key={item.id} 
-              className="relative h-[70vh] w-full overflow-hidden group cursor-pointer"
+              key={i} 
+              className="relative h-72 rounded-xl overflow-hidden group cursor-pointer shadow-lg"
               onClick={() => setModalImagen(item.imagen)}
             >
               <img 
                 src={item.imagen} 
-                alt={item.nombre} 
-                className="w-full h-full object-cover filter brightness-[0.75] group-hover:scale-105 transition-transform duration-1000"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-8 md:p-16 text-white">
-                <div className="flex items-center gap-4 text-xs tracking-widest uppercase text-[#E5C378]">
-                  <span>0{index + 1}</span>
-                  <span>—</span>
-                  <span>{item.categoria}</span>
-                </div>
-                <h3 className="text-2xl md:text-4xl font-light uppercase tracking-wide mt-1">
-                  {item.nombre}
-                </h3>
-                <p className="text-gray-300 text-xs md:text-sm font-light max-w-lg mt-2 opacity-90 group-hover:opacity-100 transition-opacity">
-                  {item.descripcion}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* --- GALERÍA MOSAICO FULL-SCREEN EXPLORABLE --- */}
-      <section id="galeria" className="py-24 px-4 md:px-12 bg-[#111111] text-white">
-        <div className="text-center space-y-2 mb-16">
-          <span className="font-serif italic text-4xl text-[#C5A059] block">
-            Galería Visual
-          </span>
-          <h2 className="text-2xl md:text-4xl font-extralight uppercase tracking-widest">
-            INSPIRACIÓN Y DETALLES
-          </h2>
-        </div>
-
-        {/* Grid Visual de Fotografías Grandes */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {[
-            "/WhatsApp Image 2026-08-06 at 14.17.54 (2).jpeg",
-            "/WhatsApp Image 2026-08-06 at 14.17.54 (2).jpeg",
-            "/WhatsApp Image 2026-08-06 at 14.17.54 (1).jpeg",
-            "/WhatsApp Image 2026-08-06 at 14.16.28.jpeg",
-            "/WhatsApp Image 2026-08-06 at 14.04.24.jpeg",
-          ].map((src, i) => (
-            <div 
-              key={i} 
-              className="relative h-80 sm:h-96 rounded-xl overflow-hidden group cursor-pointer"
-              onClick={() => setModalImagen(src)}
-            >
-              <img 
-                src={src} 
-                alt={`Galería ${i}`} 
+                alt={`Muestra ${item.nombre}`} 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter brightness-90 group-hover:brightness-100"
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span className="text-xs uppercase tracking-widest border border-white px-4 py-2 rounded-full">
-                  Ver Pantalla Completa
+                <span className="text-xs uppercase tracking-widest border border-white px-4 py-2 rounded-full backdrop-blur-sm">
+                  Ver Imagen Completa
                 </span>
               </div>
             </div>
@@ -259,7 +392,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* --- LIGHTBOX / MODAL FOTO FULLSCREEN --- */}
+      {/* --- MODAL LIGHTBOX --- */}
       {modalImagen && (
         <div 
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 cursor-zoom-out"
@@ -271,7 +404,7 @@ export default function Page() {
             className="max-w-full max-h-[90vh] object-contain rounded-lg"
           />
           <button 
-            className="absolute top-8 right-8 text-white text-xs uppercase tracking-widest bg-white/10 px-4 py-2 rounded-full hover:bg-white/20"
+            className="absolute top-6 right-6 text-white text-xs uppercase tracking-widest bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full transition-colors"
             onClick={() => setModalImagen(null)}
           >
             Cerrar [ESC]
@@ -279,19 +412,42 @@ export default function Page() {
         </div>
       )}
 
-      {/* --- FOOTER DE CONTACTO DIRECTO --- */}
-      <footer className="py-20 px-8 text-center bg-[#0A0A0A] text-white border-t border-gray-900">
-        <span className="font-serif italic text-4xl text-[#C5A059] block mb-2">Alma de Fiesta</span>
-        <h3 className="text-xl md:text-2xl font-light uppercase tracking-widest mb-6">
-          HAGAMOS TU EVENTO MEMORABLE
+      {/* --- MEDIOS DE PAGO --- */}
+      <section className="py-16 px-8 bg-[#FAF9F6] border-t border-gray-100">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <h3 className="text-lg md:text-xl font-light uppercase tracking-widest text-[#1A1A1A]">
+            Medios de Pago Aceptados
+          </h3>
+          <div className="flex flex-wrap justify-center gap-8 md:gap-14 items-center">
+            {PAYMENT_METHODS.map((method) => (
+              <div key={method.name} className="flex flex-col items-center group space-y-2">
+                <img 
+                  src={method.logo} 
+                  alt={`Logo de pago ${method.name}`} 
+                  className="h-8 md:h-10 w-auto object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300" 
+                />
+                <span className="text-[10px] text-gray-500 uppercase tracking-wider font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                  {method.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- FOOTER CON CONTACTO WHATSAPP --- */}
+      <footer className="py-16 px-8 text-center bg-[#0A0A0A] text-white">
+        <span className="font-serif italic text-3xl text-[#C5A059] block mb-2">Alma de Fiesta</span>
+        <h3 className="text-lg md:text-xl font-light uppercase tracking-widest mb-6">
+          Refrigerios Especiales para tu Próximo Evento
         </h3>
         <a 
-          href="https://wa.me/" 
+          href={mainWhatsAppLink} 
           target="_blank" 
           rel="noreferrer" 
-          className="inline-block bg-white text-black px-8 py-4 rounded-full text-xs uppercase tracking-widest font-semibold hover:bg-[#C5A059] hover:text-white transition-all shadow-xl"
+          className="inline-block bg-[#C5A059] text-black px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:bg-white transition-all shadow-xl"
         >
-          Contactar por WhatsApp
+          Contactar al 320 835 5419
         </a>
       </footer>
 
